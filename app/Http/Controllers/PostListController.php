@@ -9,9 +9,12 @@ class PostListController extends Controller
 {
     public function __invoke()
     {
-        $posts = Post::with('portal')->latest()->get();
+        $posts = Post::with('portal')->latest()
+            ->orderBy('portal_id')
+            ->get();
         return Inertia::render('Posts/Index', [
-            'posts' => $posts
+            'posts' => $posts,
+            'portals' => $posts->pluck('portal')->unique()->values(),
         ]);
     }
 }
