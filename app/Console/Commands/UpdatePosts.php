@@ -39,8 +39,9 @@ class UpdatePosts extends Command
             }
             $posts = $posts[0];
             $this->info("Found " . count($posts) . " posts");
+            $portal->posts()->delete();
             Arr::map($posts, function ($post) use ($portal) {
-                $portal->posts()->updateOrCreate(
+                $portal->posts()->create(
                     ['url' => $post['href']],
                     [
                         'title' => $post['ul'][0] ?? '',
